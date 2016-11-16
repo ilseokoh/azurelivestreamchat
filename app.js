@@ -69,17 +69,54 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.io.on('connection', function(socket){
-  console.log('a user connected');
-  app.io.emit('chat message', 'Hello!');
+// app.io.on('connection', function(socket){
+//   console.log('a user connected');
+//   app.io.emit('chat message', 'Hello!');
 
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
+//   socket.on('disconnect', function(){
+//     console.log('user disconnected');
+//   });
 
-  socket.on('chat message', function(msg){
-    app.io.emit('chat message', msg);
-  });
+//   socket.on('chat message', function(msg){
+//     app.io.emit('chat message', msg);
+//   });
+// });
+
+// usernames which are currently connected to the chat
+var usernames = {};
+
+app.io.sockets.on('connection', function (socket) { 
+
+    socket.on('sendchat', function (data) { 
+        app.io.sockets.emit('updatechat', socket.username, data);
+    }); 
+
+    // when the client emits 'adduser', this listens and executes
+	socket.on('adduser', function(username){
+		// we store the username in the socket session for this client
+		socket.username = username;
+		// add the client's username to the global list
+		usernames[username] = username;
+		// echo to client they've connected
+		socket.emit('updatechat', 'SERVER', 'you have connected');
+		// echo globally (all clients) that a person has connected
+		socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
+		// update the list of users in chat, client-side
+		app.io.sockets.emit('updateusers', usernames);
+	});
+
+    socket.on('disconnect', function() {
+        // remove the username from global usernames list
+		delete usernames[socket.username];
+		// update list of users in chat, client-side
+		app.io.sockets.emit('updateusers', usernames);
+		// echo globally that this client has left
+		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+    });
+
 });
+
+
+
 
 module.exports = app;
