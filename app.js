@@ -6,9 +6,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+//var everyauth = require('everyauth');
+//var session = require('express-session');
 
 var routes = require('./routes/index');
-var users = require('./routes/user');
+var chat = require('./routes/chat');
+var rooms = require('./routes/rooms');
 
 var app = express();
 
@@ -30,10 +33,17 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(cookieParser());
+//app.use(session());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
+app.use('/fonts', express.static(__dirname + '/node_modules/font-awesome/fonts')); // font awesome Fonts
+app.use('/css', express.static(__dirname + '/node_modules/font-awesome/css')); // font awesome css
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/rooms', rooms);
+app.use('/chat',chat);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -113,10 +123,6 @@ app.io.sockets.on('connection', function (socket) {
 		// echo globally that this client has left
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
     });
-
 });
-
-
-
 
 module.exports = app;

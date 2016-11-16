@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
+/* GET Rooms page. */
 
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Live Strem Chat' });
+  res.render('rooms', { title: 'Live Stream Chat - Rooms' });
 });
 
 module.exports = router;
