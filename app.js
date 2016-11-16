@@ -6,12 +6,31 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-//var everyauth = require('everyauth');
-//var session = require('express-session');
+var glob = require('glob');
+var mongoose = require('mongoose');
+// var everyauth = require('everyauth');
+var session = require('express-session');
+
 
 var routes = require('./routes/index');
 var chat = require('./routes/chat');
 var rooms = require('./routes/rooms');
+
+var config = require('./config/config');
+
+mongoose.connect(config.db);
+var db = mongoose.connection;
+db.on('error', function () {
+  throw new Error('unable to connect to database at ' + config.db);
+});
+
+var models = glob.sync(config.root + '/models/*.js');
+models.forEach(function (model) {
+  require(model);
+});
+
+// everyauth.debug = true;
+// everyauth.twitter
 
 var app = express();
 
@@ -33,7 +52,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(cookieParser());
-//app.use(session());
+app.use(session({secret: '04f9b23c-9b91-4047-b506-515590091cb2',resave: true, saveUninitialized: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery

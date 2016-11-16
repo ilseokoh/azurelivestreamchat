@@ -1,3 +1,23 @@
 <% include header %>
+    <div class="container">
+    <div class="page-header">
+        <h1>Live Stream Rooms</h1>
+    </div>
+    <p class="lead">Please select room you want.</p>  
+    <div class="media"> 
+        <div class="media-left"> 
+            <a href="/chat"> <img alt="64x64" class="media-object" src="/img/microsoft_s.png" data-holder-rendered="true" style="width: 64px; height: 64px;"> </a> 
+         </div> 
+         <div class="media-body"> 
+             <h4 class="media-heading"><a href="/chat"><%= title %></h4></a> <%= description %></div> </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+        <p class="text-muted">Live Stream Chat. The Souce code is <a href="https://github.com/ilseokoh/azurelivestreamchat">here.</a> Build by Il Seok Oh / Seung Ho Lim</p>
+        </div>
+    </footer>
+
+<% include scripts %>
 
 <% include footer %>

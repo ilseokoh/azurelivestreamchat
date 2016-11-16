@@ -10,10 +10,10 @@
         <h2>Join the chat room now!</h3>
         <p>Please login first.</p>
         <p>
-            <a href="#" class="btn btn-lg btn-social btn-facebook"><span><i class="fa fa-facebook"></i></span>Facebook</a>
+            <button id="facebookbtn" class="btn btn-lg btn-social btn-facebook"><span><i class="fa fa-facebook"></i></span>Facebook</button>
             <!--<a href="#" class="btn btn-lg btn-social btn-twitter"><span><i class="fa fa-twitter"></i></span>Twitter</a>
             <a href="#" class="btn btn-lg btn-social btn-google"><span><i class="fa fa-google"></i></span>Google</a>-->
-            <a href="#" class="btn btn-lg btn-social btn-microsoft"><span><i class="fa fa-windows"></i></span>Microsoft</a>
+            <!--<a href="#" class="btn btn-lg btn-social btn-microsoft"><span><i class="fa fa-windows"></i></span>Microsoft</a>-->
         </p>
       </div>
 
@@ -25,4 +25,16 @@
         <p class="text-muted">Live Stream Chat. The Souce code is <a href="https://github.com/ilseokoh/azurelivestreamchat">here.</a> Build by Il Seok Oh / Seung Ho Lim</p>
       </div>
     </footer>
+
+    <% include scripts %>
+
+    <script>
+        $(function(){
+            $('#facebookbtn').click(function () {
+                var username = prompt("Please enter your name");
+                window.location.href = '/rooms?username=' + username;
+                return false;
+            });
+        });
+    </script>
 <% include footer %>
