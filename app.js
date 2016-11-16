@@ -54,11 +54,11 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(session({secret: '04f9b23c-9b91-4047-b506-515590091cb2',resave: true, saveUninitialized: true}));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
-app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
-app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
-app.use('/fonts', express.static(__dirname + '/node_modules/font-awesome/fonts')); // font awesome Fonts
-app.use('/css', express.static(__dirname + '/node_modules/font-awesome/css')); // font awesome css
+// app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+// app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+// app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
+// app.use('/fonts', express.static(__dirname + '/node_modules/font-awesome/fonts')); // font awesome Fonts
+// app.use('/css', express.static(__dirname + '/node_modules/font-awesome/css')); // font awesome css
 
 app.use('/', routes);
 app.use('/rooms', rooms);
